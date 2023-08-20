@@ -1,0 +1,35 @@
+- hosts: devserver
+  gather_facts: no
+  vars:
+    users:
+      - jaime
+      - sansa
+      - robert
+  tasks:
+    - name: add users
+      ansible.builtin.user:
+        name: "{{ item }}"
+      loop: "{{ users }}"
+      become: yes
+    
+    - name: set git config
+      ansible.builtin.template:
+        src: ../files/git/git.config.j2
+        dest:  "/home/{{ item }}/.gitconfig"
+      loop: "{{ users }}"
+      become: yes
+
+    - name: create a ssh directory
+      ansible.builtin.file:
+        path: "/home/{{ item }}/.ssh"
+        state: directory
+        mode: '0755'
+      loop: "{{ users }}"
+      become: yes
+
+    - name: add ssh key
+      ansible.builtin.copy:
+        src: ../files/ssh/id.pub
+        dest:  "/home/{{ item }}/.ssh/authorized_keys"
+      loop: "{{ users }}"
+      become: yes
