@@ -1,0 +1,19 @@
+- hosts: devserver
+  gather_facts: no
+  
+  vars:
+    username: alice
+    path_key: ../files/ssh/id.pub 
+  
+  tasks:
+    - name: add user
+      ansible.builtin.user:
+        name: "{{ username }}"
+      become: yes
+    
+    - name: set authorized key taken from file
+      ansible.posix.authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: "{{ lookup('file', path_key) }}"
+      become: yes

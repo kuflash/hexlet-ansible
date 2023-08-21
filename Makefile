@@ -1,3 +1,6 @@
+add_user:
+	ansible-playbook ./playbooks/setup-user-access.yml -i inventory.ini
+
 add_node_user:
 	ansible-playbook ./playbooks/setup-node-by-user.yml -i inventory.ini
 
