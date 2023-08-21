@@ -1,0 +1,10 @@
+- hosts: devserver
+  gather_facts: no
+  
+  vars:
+    username: bart
+  
+  tasks:
+    - import_tasks: ../tasks/add-node.yml
+    - import_tasks: ../tasks/add-user.yml
+    - import_tasks: ../tasks/set-git-config.yml

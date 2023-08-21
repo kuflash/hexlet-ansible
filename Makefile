@@ -1,3 +1,6 @@
+add_node_user:
+	ansible-playbook ./playbooks/setup-node-by-user.yml -i inventory.ini
+
 install_nginx:
 	ansible-playbook ./playbooks/nginx.yml -i inventory.ini
 
