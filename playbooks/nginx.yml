@@ -1,11 +1,21 @@
 - hosts: devserver
   tasks:
+    - name: install cowsay
+      ansible.builtin.apt:
+        name: cowsay
+        state: latest
+      become: yes
+
     - name: install nginx
       ansible.builtin.apt:
         name: nginx
         state: latest
       become: yes
-    
+
+    - name: generate cowsay
+      ansible.builtin.shell: "cowsay \"This is server {{ server_name }}\""
+      register: cowsay_result
+
     - name: update index page
       ansible.builtin.template:
         src: ../files/nginx/index.html.j2
